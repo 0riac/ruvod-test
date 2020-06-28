@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "49db8d2efedbbb88cddd8bff7f67243f",
+    "revision": "5daf9e815cf2149a0383df75343998de",
     "url": "/ruvod-test/index.html"
   },
   {
@@ -8,12 +8,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/ruvod-test/static/css/main.c942d61e.chunk.css"
   },
   {
-    "revision": "0f8736f0fd97a31c3cde",
-    "url": "/ruvod-test/static/js/2.74cbf48b.chunk.js"
+    "revision": "9a0fde7f1630dd4dd64a",
+    "url": "/ruvod-test/static/js/2.c5c68ba0.chunk.js"
   },
   {
     "revision": "1937a0fc6634269e5f47f8181e27fdc7",
-    "url": "/ruvod-test/static/js/2.74cbf48b.chunk.js.LICENSE.txt"
+    "url": "/ruvod-test/static/js/2.c5c68ba0.chunk.js.LICENSE.txt"
   },
   {
     "revision": "c38d07b102ab8a84e636",
