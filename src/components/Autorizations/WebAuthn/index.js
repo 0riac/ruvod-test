@@ -35,8 +35,8 @@ const LayoutGrid = ({ children, ...props }) => (
 
 const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
   const [, setAuth] = useAuth();
-  const [store, setStore] = useState({ password: '', email: '' });
-  const { password, email } = store;
+  const [store, setStore] = useState({ email: '' });
+  const { email } = store;
   const emailInputRef = useRef();
   const [{ email: emailError }, setErrors] = useState({});
 
@@ -49,10 +49,6 @@ const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
   const validate = () => {
     let error;
 
-    if (!password) {
-      error = true;
-      setErrors((prev) => ({ ...prev, password: { label: 'Required', error: true } }));
-    }
     if (!validateEmail(email)) {
       error = true;
       setErrors((prev) => ({ ...prev, email: { label: 'Is not a valid email', error: true } }));
@@ -90,14 +86,14 @@ const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
                 await webAuthClient.login({
                   username: email,
                 });
-                const { client } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
+                const { data: { client } } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
                   withCredentials: true
                 });
 
                 setAuth({ client, refetch: true });
                 setRedirect(true);
               } catch (e) {
-                console.log(`register failed ${e}`);
+                alert(`login failed ${e}`);
               }
             }
           }}
@@ -180,14 +176,14 @@ const Registration = withAuth(({ onCancel, useAuth, setRedirect }) => {
                   username: email,
                   name
                 });
-                const { client } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
+                const { data: { client } } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
                   withCredentials: true
                 });
 
                 setAuth({ client, refetch: true });
                 setRedirect(true);
               } catch (e) {
-                console.log(`register failed ${e}`);
+                alert(`register failed ${e}`);
               }
             }
           }}

@@ -7,6 +7,9 @@ import { UserGroupCard, AddUser } from './components';
 import { GET_USERS, DELETE_USER, UPDATE_USER, getOpts } from '../../queries';
 import { withAuth } from '../AuthClient';
 import { Redirect } from 'react-router-dom';
+import constants from '../../config';
+
+const { ROUTING_SUBPATH } = constants;
 
 const Wrapper = styled(Box)({
   overflowY: 'scroll',
@@ -37,7 +40,7 @@ const Home = ({ useAuth }) => {
 
   return (
     <Wrapper pt={2} mb={2}>
-      {store?.notAuthorized ? <Redirect to='/login' /> : null}
+      {store?.notAuthorized ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
       <Container maxWidth='sm'>
         <UserGroupCard
           users={data?.users}

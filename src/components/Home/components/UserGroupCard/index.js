@@ -30,9 +30,9 @@ const UserGroupCard = ({ loading, users = [], deleteItem, updateItem }) => {
       )
         : (
           <Grid container spacing={3}>
-            {Array(5).fill(null).map((a, i) => (
+            {Array(6).fill(null).map((a, i) => (
               <Grid item xs={12} key={i}>
-                <UserCardSkeleton />
+                <UserCardSkeleton opacity={1 - (i * 1.5) / 10} />
               </Grid>
             ))}
           </Grid>

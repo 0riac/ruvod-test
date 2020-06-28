@@ -6,9 +6,9 @@ import Box from '@material-ui/core/Box';
 
 const defaultHeight = 30;
 
-const UserCardSkeleton = () => {
+const UserCardSkeleton = ({ opacity = 1 }) => {
   return (
-    <Paper>
+    <Paper style={{ opacity }}>
       <Box p={2}>
         <Grid container justify='space-between' alignItems='center'>
           <Grid item>
@@ -17,10 +17,10 @@ const UserCardSkeleton = () => {
               <Grid item>
                 <Grid container direction='row' alignItems='center' spacing={1}>
                   <Grid item>
-                    <Skeleton variant='text' height={defaultHeight} width={50} />
+                    <Skeleton variant='text' height={defaultHeight} width={45} />
                   </Grid>
                   <Grid item>
-                    <Skeleton variant='text' height={defaultHeight} width={150} />
+                    <Skeleton variant='text' height={defaultHeight} width={145} />
                   </Grid>
                 </Grid>
               </Grid>
@@ -29,10 +29,10 @@ const UserCardSkeleton = () => {
           <Grid item>
             <Grid container direction='row' spacing={2}>
               <Grid item>
-                <Skeleton variant='text' height={defaultHeight} width={20} />
+                <Skeleton variant='text' height={defaultHeight} width={18} />
               </Grid>
               <Grid item>
-                <Skeleton variant='text' height={defaultHeight} width={20} />
+                <Skeleton variant='text' height={defaultHeight} width={18} />
               </Grid>
             </Grid>
           </Grid>

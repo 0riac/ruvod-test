@@ -12,8 +12,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withAuth } from '../AuthClient';
 import constants from '../../config';
 import axios from 'axios';
+import Client from 'webauthn/client';
 
-const { API_ENDPOINT } = constants;
+const { API_ENDPOINT, ROUTING_SUBPATH } = constants;
+const webAuthClient = new Client({ pathPrefix: `${API_ENDPOINT}/webauthn` });
 
 const WhiteIconButton = styled(IconButton)({
   color: '#FFF',
@@ -36,14 +38,14 @@ const Header = ({ useAuth }) => {
 
   return (
     <>
-      {error || notAuthorized ? <Redirect to='/login' /> : null}
+      {error || notAuthorized ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
       <div style={{ height: '64px' }} />
       <AppBar position='fixed'>
         <Toolbar disableGutters>
           <Container maxWidth='md'>
             <ToolbarGrid container justify='space-between' alignItems='center'>
               <Grid item>
-                <Link to='/'>
+                <Link to={`${ROUTING_SUBPATH}/`}>
                   <NavButton>
                     Home
                   </NavButton>
@@ -58,7 +60,8 @@ const Header = ({ useAuth }) => {
                     <Grid item>
                       <WhiteIconButton
                         onClick={async () => {
-                          await axios.get(`${API_ENDPOINT}/logout`, { withCredentials: true });
+                          await Promise.all([axios.get(`${API_ENDPOINT}/logout`, { withCredentials: true }),
+                            webAuthClient.logout()]);
                           setAuth(({ client: _, ...rest }) => ({ ...rest, notAuthorized: true }));
                         }}
                       >
@@ -67,7 +70,7 @@ const Header = ({ useAuth }) => {
                     </Grid>
                   </Grid>
                 ) : (
-                  <Link to='/login'>
+                  <Link to={`${ROUTING_SUBPATH}/login`}>
                     <WhiteIconButton>
                       <AccountCircleIcon />
                     </WhiteIconButton>

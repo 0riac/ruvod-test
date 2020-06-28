@@ -3,13 +3,12 @@ import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import GitHubLogin from './GitHubLogin';  //eslint-disable-line
 import constants from '../../../config';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withAuth } from '../../AuthClient';
 
-const { GITHUB_CLIENT_ID } = constants;
+const { API_ENDPOINT } = constants;
 
 const AuthIconButton = styled(IconButton)(({ theme, active }) => ({
   color: active ? theme.palette.primary.main : '#000'
@@ -25,9 +24,7 @@ const LayoutGrid = ({ children, ...props }) => (
   </Grid>
 );
 
-const GitHub = ({ active, type, setAuthControls, setRedirect, useAuth, onClick }) => {
-  const [, setAuth] = useAuth();
-
+const GitHub = ({ active, setAuthControls, onClick }) => {
   useEffect(() => {
     if (active) {
       setAuthControls && setAuthControls({ element: (
@@ -43,25 +40,17 @@ const GitHub = ({ active, type, setAuthControls, setRedirect, useAuth, onClick }
   }, [active]);
 
   return (
-    <GitHubLogin
-      clientId={GITHUB_CLIENT_ID}
-    >
+    <a href={`${API_ENDPOINT}/auth/github/login`}>
       <AuthIconButton
         active={active}
         onClick={(e) => {
           if (active) e.stopPropagation();
           onClick && onClick();
         }}
-        onSuccess={(...args) => {
-          console.log('github args', ...args);
-        }}
-        onFailure={(...args) => {
-          console.log('github args', ...args);
-        }}
       >
         <GitHubIcon />
       </AuthIconButton>
-    </GitHubLogin>
+    </a>
   );
 };
 

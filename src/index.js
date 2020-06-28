@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
-// import { HttpLink, createHttpLink  } from 'apollo-link-http';
+import constants from './config';
 
 import './index.css';
 import App from './App';
-
 import * as serviceWorker from './serviceWorker';
 
+const { API_ENDPOINT } = constants;
+
 const client = new ApolloClient({
-  uri: 'http://localhost:4010/graphql',
+  uri: `${API_ENDPOINT}/graphql`,
   credentials: 'include',
 });
 

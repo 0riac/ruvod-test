@@ -14,7 +14,7 @@ import axios from 'axios';
 import constants from '../../config';
 import { withAuth } from '../AuthClient';
 
-const { API_ENDPOINT } = constants;
+const { API_ENDPOINT, ROUTING_SUBPATH } = constants;
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -29,11 +29,8 @@ const LayoutGrid = ({ children, ...props }) => (
 const RegistratoinContainer = styled(Container)(({ theme }) => ({
   marginTop: theme.spacing(2),
   width: '350px',
-  [theme.breakpoints.down('md')]: {
-    width: '350px'
-  },
-  [theme.breakpoints.down('sm')]: {
-    width: '300px'
+  [theme.breakpoints.down('xs')]: {
+    width: '320px'
   }
 }));
 
@@ -43,6 +40,10 @@ const TitleTypography = styled(Typography)(({ theme }) => ({
 
 const FullWidthTextField = styled(TextField)({
   width: '100%'
+});
+
+const NoDecorationLink = styled(Link)({
+  textDecoration: 'none'
 });
 
 const Registration = ({ useAuth }) => {
@@ -81,7 +82,7 @@ const Registration = ({ useAuth }) => {
 
   return (
     <RegistratoinContainer>
-      {redirect ? <Redirect to='/' /> : null}
+      {redirect ? <Redirect to={`${ROUTING_SUBPATH}/`} /> : null}
       <Paper>
         <Box p={2}>
           <LayoutGrid container justify='center' spacing={2} direction='column'>
@@ -133,9 +134,9 @@ const Registration = ({ useAuth }) => {
                   />
                 </LayoutGrid>
                 <LayoutGrid container justify='space-between'>
-                  <Link to='/login'>
+                  <NoDecorationLink to={`${ROUTING_SUBPATH}/login`}>
                     <Button variant='outlined'>Login</Button>
-                  </Link>
+                  </NoDecorationLink>
                   <Button
                     variant='contained'
                     color='primary'

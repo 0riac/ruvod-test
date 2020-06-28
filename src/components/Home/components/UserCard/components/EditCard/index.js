@@ -8,7 +8,7 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
+import Field from '@material-ui/core/TextField';
 import CheckIcon from '@material-ui/icons/Check';
 import ClearIcon from '@material-ui/icons/Clear';
 import { validateEmail } from '../../../../../../helpers';
@@ -18,6 +18,12 @@ const ExpandBody = styled('div')({
   marginLeft: '46px',
   marginTop: '10px'
 });
+
+const TextField = styled(Field)(({ theme, smallScreenWidth }) => ({
+  [theme.breakpoints.down('xs')]: {
+    width: smallScreenWidth
+  },
+}));
 
 const EditCard = ({ name: defaultName, email: defaulEmail, showMoreInfo, showCard, setStore, updateItem }) => {
   const [name, setName] = useState(defaultName);
@@ -60,6 +66,7 @@ const EditCard = ({ name: defaultName, email: defaulEmail, showMoreInfo, showCar
                     </Grid>
                     <Grid item>
                       <TextField
+                        smallScreenWidth='90px'
                         value={name}
                         onChange={({ target: { value } }) => {
                           setName(value);
@@ -108,6 +115,7 @@ const EditCard = ({ name: defaultName, email: defaulEmail, showMoreInfo, showCar
                 </Grid>
                 <Grid item>
                   <TextField
+                    smallScreenWidth='140px'
                     value={email}
                     onChange={({ target: { value } }) => {
                       setEmail(value);
