@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/ruvod-test/static/css/main.c942d61e.chunk.css",
-    "main.js": "/ruvod-test/static/js/main.b93e3d8e.chunk.js",
-    "main.js.map": "/ruvod-test/static/js/main.b93e3d8e.chunk.js.map",
+    "main.js": "/ruvod-test/static/js/main.1e5aeb43.chunk.js",
+    "main.js.map": "/ruvod-test/static/js/main.1e5aeb43.chunk.js.map",
     "runtime-main.js": "/ruvod-test/static/js/runtime-main.ebe8db32.js",
     "runtime-main.js.map": "/ruvod-test/static/js/runtime-main.ebe8db32.js.map",
-    "static/js/2.b5c15413.chunk.js": "/ruvod-test/static/js/2.b5c15413.chunk.js",
-    "static/js/2.b5c15413.chunk.js.map": "/ruvod-test/static/js/2.b5c15413.chunk.js.map",
+    "static/js/2.c1bcc2a7.chunk.js": "/ruvod-test/static/js/2.c1bcc2a7.chunk.js",
+    "static/js/2.c1bcc2a7.chunk.js.map": "/ruvod-test/static/js/2.c1bcc2a7.chunk.js.map",
     "index.html": "/ruvod-test/index.html",
-    "precache-manifest.2df970630f97d75a97509e9587bd7a4f.js": "/ruvod-test/precache-manifest.2df970630f97d75a97509e9587bd7a4f.js",
+    "precache-manifest.3d086de32bb5ee9261b7615d2623c8bf.js": "/ruvod-test/precache-manifest.3d086de32bb5ee9261b7615d2623c8bf.js",
     "service-worker.js": "/ruvod-test/service-worker.js",
     "static/css/main.c942d61e.chunk.css.map": "/ruvod-test/static/css/main.c942d61e.chunk.css.map",
-    "static/js/2.b5c15413.chunk.js.LICENSE.txt": "/ruvod-test/static/js/2.b5c15413.chunk.js.LICENSE.txt"
+    "static/js/2.c1bcc2a7.chunk.js.LICENSE.txt": "/ruvod-test/static/js/2.c1bcc2a7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.ebe8db32.js",
-    "static/js/2.b5c15413.chunk.js",
+    "static/js/2.c1bcc2a7.chunk.js",
     "static/css/main.c942d61e.chunk.css",
-    "static/js/main.b93e3d8e.chunk.js"
+    "static/js/main.1e5aeb43.chunk.js"
   ]
 }
