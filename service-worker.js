@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/ruvod-test/precache-manifest.5a74846ea3ec5c8d364ff3ee3a23ecf1.js"
+  "/ruvod-test/precache-manifest.72eabf28894f7f35dfd66107608d59dd.js"
 );
 
 self.addEventListener('message', (event) => {
