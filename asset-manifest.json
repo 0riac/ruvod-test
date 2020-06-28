@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/ruvod-test/static/css/main.c942d61e.chunk.css",
-    "main.js": "/ruvod-test/static/js/main.ce12b49e.chunk.js",
-    "main.js.map": "/ruvod-test/static/js/main.ce12b49e.chunk.js.map",
+    "main.js": "/ruvod-test/static/js/main.16df1165.chunk.js",
+    "main.js.map": "/ruvod-test/static/js/main.16df1165.chunk.js.map",
     "runtime-main.js": "/ruvod-test/static/js/runtime-main.ebe8db32.js",
     "runtime-main.js.map": "/ruvod-test/static/js/runtime-main.ebe8db32.js.map",
     "static/js/2.e7a58a48.chunk.js": "/ruvod-test/static/js/2.e7a58a48.chunk.js",
     "static/js/2.e7a58a48.chunk.js.map": "/ruvod-test/static/js/2.e7a58a48.chunk.js.map",
     "index.html": "/ruvod-test/index.html",
-    "precache-manifest.c24c0fe63de91e73caf985fcd2587435.js": "/ruvod-test/precache-manifest.c24c0fe63de91e73caf985fcd2587435.js",
+    "precache-manifest.007f64d21faf551ee253b73fd1118fda.js": "/ruvod-test/precache-manifest.007f64d21faf551ee253b73fd1118fda.js",
     "service-worker.js": "/ruvod-test/service-worker.js",
     "static/css/main.c942d61e.chunk.css.map": "/ruvod-test/static/css/main.c942d61e.chunk.css.map",
     "static/js/2.e7a58a48.chunk.js.LICENSE.txt": "/ruvod-test/static/js/2.e7a58a48.chunk.js.LICENSE.txt"
@@ -17,6 +17,6 @@
     "static/js/runtime-main.ebe8db32.js",
     "static/js/2.e7a58a48.chunk.js",
     "static/css/main.c942d61e.chunk.css",
-    "static/js/main.ce12b49e.chunk.js"
+    "static/js/main.16df1165.chunk.js"
   ]
 }
