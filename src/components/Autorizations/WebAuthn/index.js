@@ -5,6 +5,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
+import Typography from '@material-ui/core/Typography';
+import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import Client from 'webauthn/client';
 import { validateEmail } from '../../../helpers';
@@ -216,14 +218,16 @@ const WebAuthn = ({ setAuthControls, active, onClick, type, setRedirect }) => {
   }, [active, type]);
 
   return (
-    <AuthIconButton
-      active={active}
-      onClick={() => {
-        onClick && onClick();
-      }}
-    >
-      <VpnKeyOutlinedIcon />
-    </AuthIconButton>
+    <Tooltip title={<Typography>WebAuthn</Typography>}>
+      <AuthIconButton
+        active={active}
+        onClick={() => {
+          onClick && onClick();
+        }}
+      >
+        <VpnKeyOutlinedIcon />
+      </AuthIconButton>
+    </Tooltip>
   );
 };
 
