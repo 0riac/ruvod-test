@@ -7,9 +7,7 @@ import { UserGroupCard, AddUser } from './components';
 import { GET_USERS, DELETE_USER, UPDATE_USER, getOpts } from '../../queries';
 import { withAuth } from '../AuthClient';
 import { Redirect } from 'react-router-dom';
-import constants from '../../config';
-
-const { ROUTING_SUBPATH } = constants;
+import { ROUTING_SUBPATH } from '../../config';
 
 const Wrapper = styled(Box)({
   overflowY: 'scroll',
@@ -30,17 +28,17 @@ const Home = ({ useAuth }) => {
     }
   });
   const [updateUser] = useMutation(UPDATE_USER);
-  const [store] = useAuth();
+  const [{ client }] = useAuth();
 
   useEffect(() => {
-    if (store?.refetch) {
+    if (client?._id) {
       refetch({ variables: getOpts });
     }
-  }, []);
+  }, [client?._id]);
 
   return (
     <Wrapper pt={2} mb={2}>
-      {store?.notAuthorized ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
+      {!client ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
       <Container maxWidth='sm'>
         <UserGroupCard
           users={data?.users}

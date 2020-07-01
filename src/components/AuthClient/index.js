@@ -1,8 +1,6 @@
 import React, { useState, createContext } from 'react';
 import axios from 'axios';
-import constants from '../../config';
-
-const { API_ENDPOINT } = constants;
+import { API_ENDPOINT } from '../../config';
 
 export const AuthContext = createContext();
 
@@ -20,7 +18,7 @@ export const useAuthClient = (defaultState = {}) => {
 
       setState({ client });
     } catch (e) {
-      setState({ error: true, notAuthorized: true });
+      setState({ error: true });
     }
   };
 

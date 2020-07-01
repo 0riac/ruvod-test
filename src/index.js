@@ -2,13 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
-import constants from './config';
+import { API_ENDPOINT } from './config';
 
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
-const { API_ENDPOINT } = constants;
 
 const client = new ApolloClient({
   uri: `${API_ENDPOINT}/graphql`,

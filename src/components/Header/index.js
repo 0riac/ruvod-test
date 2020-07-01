@@ -10,11 +10,10 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { withAuth } from '../AuthClient';
-import constants from '../../config';
+import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
 import axios from 'axios';
 import Client from 'webauthn/client';
 
-const { API_ENDPOINT, ROUTING_SUBPATH } = constants;
 const webAuthClient = new Client({ pathPrefix: `${API_ENDPOINT}/webauthn` });
 
 const WhiteIconButton = styled(IconButton)({
@@ -34,11 +33,11 @@ const ToolbarGrid = styled(Grid)({
 });
 
 const Header = ({ useAuth }) => {
-  const [{ client, error, notAuthorized } = {}, setAuth] = useAuth();
+  const [{ client, error } = {}, setAuth] = useAuth();
 
   return (
     <>
-      {error || notAuthorized ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
+      {error || !client ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
       <div style={{ height: '64px' }} />
       <AppBar position='fixed'>
         <Toolbar disableGutters>
@@ -62,7 +61,7 @@ const Header = ({ useAuth }) => {
                         onClick={async () => {
                           await Promise.all([axios.get(`${API_ENDPOINT}/logout`, { withCredentials: true }),
                             webAuthClient.logout()]);
-                          setAuth(({ client: _, ...rest }) => ({ ...rest, notAuthorized: true }));
+                          setAuth(({ client: _, ...rest }) => ({ ...rest }));
                         }}
                       >
                         <ExitToAppIcon />

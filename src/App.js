@@ -7,10 +7,8 @@ import {
 import { styled } from '@material-ui/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Home, Header, Registration, Login, AuthContext, useAuthClient } from './components';
-import constants from './config';
+import { ROUTING_SUBPATH } from './config';
 import './App.css';
-
-const { ROUTING_SUBPATH } = constants;
 
 const ProgressWrapper = styled('div')({
   display: 'flex',

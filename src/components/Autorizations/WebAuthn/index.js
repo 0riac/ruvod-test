@@ -10,10 +10,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 import axios from 'axios';
 import Client from 'webauthn/client';
 import { validateEmail } from '../../../helpers';
-import constants from '../../../config';
+import { API_ENDPOINT } from '../../../config';
 import { withAuth } from '../../AuthClient';
-
-const { API_ENDPOINT } = constants;
 
 const webAuthClient = new Client({ pathPrefix: `${API_ENDPOINT}/webauthn` });
 
@@ -35,7 +33,7 @@ const LayoutGrid = ({ children, ...props }) => (
   </Grid>
 );
 
-const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
+const Login = withAuth(({ onCancel, useAuth }) => {
   const [, setAuth] = useAuth();
   const [store, setStore] = useState({ email: '' });
   const { email } = store;
@@ -92,8 +90,7 @@ const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
                   withCredentials: true
                 });
 
-                setAuth({ client, refetch: true });
-                setRedirect(true);
+                setAuth({ client });
               } catch (e) {
                 alert(`login failed ${e}`);
               }
@@ -107,7 +104,7 @@ const Login = withAuth(({ onCancel, useAuth, setRedirect }) => {
   );
 });
 
-const Registration = withAuth(({ onCancel, useAuth, setRedirect }) => {
+const Registration = withAuth(({ onCancel, useAuth }) => {
   const [, setAuth] = useAuth();
   const [store, setStore] = useState({ name: '', email: '' });
   const { name, email } = store;
@@ -182,8 +179,7 @@ const Registration = withAuth(({ onCancel, useAuth, setRedirect }) => {
                   withCredentials: true
                 });
 
-                setAuth({ client, refetch: true });
-                setRedirect(true);
+                setAuth({ client });
               } catch (e) {
                 alert(`register failed ${e}`);
               }
@@ -197,17 +193,17 @@ const Registration = withAuth(({ onCancel, useAuth, setRedirect }) => {
   );
 });
 
-const WebAuthn = ({ setAuthControls, active, onClick, type, setRedirect }) => {
+const WebAuthn = ({ setAuthControls, active, onClick, type }) => {
   useEffect(() => {
     if (active) {
       let component;
       switch (type) {
         case 'login': {
-          component = { element: <Login onCancel={() => onClick && onClick()} setRedirect={setRedirect} /> };
+          component = { element: <Login onCancel={() => onClick && onClick()} /> };
           break;
         }
         case 'registration': {
-          component = { element: <Registration onCancel={() => onClick && onClick()} setRedirect={setRedirect} /> };
+          component = { element: <Registration onCancel={() => onClick && onClick()} /> };
           break;
         }
         default: {}

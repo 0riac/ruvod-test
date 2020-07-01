@@ -3,12 +3,10 @@ import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import GitHubIcon from '@material-ui/icons/GitHub';
-import constants from '../../../config';
+import { API_ENDPOINT } from '../../../config';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { withAuth } from '../../AuthClient';
-
-const { API_ENDPOINT } = constants;
 
 const AuthIconButton = styled(IconButton)(({ theme, active }) => ({
   color: active ? theme.palette.primary.main : '#000'

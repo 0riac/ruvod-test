@@ -11,10 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { validateEmail } from '../../helpers';
 import axios from 'axios';
-import constants from '../../config';
+import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
 import { withAuth } from '../AuthClient';
-
-const { API_ENDPOINT, ROUTING_SUBPATH } = constants;
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -47,8 +45,7 @@ const NoDecorationLink = styled(Link)({
 });
 
 const Login = ({ useAuth }) => {
-  const [, setAuth] = useAuth();
-  const [redirect, setRedirect] = useState();
+  const [{ client }, setAuth] = useAuth();
   const [store, setStore] = useState({ password: '', email: '' });
   const { password, email } = store;
   const emailInputRef = useRef();
@@ -78,14 +75,14 @@ const Login = ({ useAuth }) => {
 
   return (
     <RegistratoinContainer>
-      {redirect ? <Redirect to={`${ROUTING_SUBPATH}/`} /> : null}
+      {client ? <Redirect to={`${ROUTING_SUBPATH}/`} /> : null}
       <Paper>
         <Box p={2}>
           <LayoutGrid container justify='center' spacing={2} direction='column'>
             <TitleTypography variant='h6'>
               Login
             </TitleTypography>
-            <Autorizations type='login' setAuthControls={setAuthControls} setRedirect={setRedirect} />
+            <Autorizations type='login' setAuthControls={setAuthControls} />
             {authControls ? authControls?.element : (
               <LayoutGrid container justify='center' spacing={2} direction='column'>
                 <LayoutGrid container spacing={2} direction='column'>
@@ -129,9 +126,8 @@ const Login = ({ useAuth }) => {
                         axios.post(`${API_ENDPOINT}/auth`, { email, password }, {
                           withCredentials: true
                         })
-                          .then(({ data: { client } }) => {
-                            setAuth({ client, refetch: true });
-                            setRedirect(true);
+                          .then(({ data }) => {
+                            setAuth({ client: data.client });
                           })
                           .catch(() => {
                             setErrors({ password: { error: true }, email: { error: true } });

@@ -36,6 +36,7 @@
         "prefer-template": 0,
         "no-unused-expressions": 0,
         "react/jsx-no-target-blank": 0,
-        "no-alert": 0
+        "no-alert": 0,
+        "no-underscore-dangle": 0
     }
 }

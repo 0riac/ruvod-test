@@ -13,7 +13,7 @@ const LayoutGrid = ({ children, itemProps = {}, value, onSelect, ...props }) => 
   </Grid>
 );
 
-const Autorizations = ({ type, setAuthControls, setRedirect }) => {
+const Autorizations = ({ type, setAuthControls }) => {
   const [value, setValue] = useState();
 
   return (
@@ -26,7 +26,6 @@ const Autorizations = ({ type, setAuthControls, setRedirect }) => {
       itemProps={{
         type,
         setAuthControls,
-        setRedirect
       }}
     >
       <GitHub />
