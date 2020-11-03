@@ -1,4 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { logIn as logInAction } from '../../redux/actions/auth';
 import { Link, Redirect } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,9 +12,7 @@ import Autorizations from '../Autorizations';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { validateEmail } from '../../helpers';
-import axios from 'axios';
-import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
-import { withAuth } from '../AuthClient';
+import { ROUTING_SUBPATH } from '../../config';
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -44,8 +44,7 @@ const NoDecorationLink = styled(Link)({
   textDecoration: 'none'
 });
 
-const Login = ({ useAuth }) => {
-  const [{ client }, setAuth] = useAuth();
+const Login = ({ client, logIn }) => {
   const [store, setStore] = useState({ password: '', email: '' });
   const { password, email } = store;
   const emailInputRef = useRef();
@@ -121,17 +120,13 @@ const Login = ({ useAuth }) => {
                   <Button
                     variant='contained'
                     color='primary'
-                    onClick={() => {
+                    onClick={async () => {
                       if (validate()) {
-                        axios.post(`${API_ENDPOINT}/auth`, { email, password }, {
-                          withCredentials: true
-                        })
-                          .then(({ data }) => {
-                            setAuth({ client: data.client });
-                          })
-                          .catch(() => {
-                            setErrors({ password: { error: true }, email: { error: true } });
-                          });
+                        try {
+                          await logIn({ email, password });
+                        } catch {
+                          setErrors({ password: { error: true }, email: { error: true } });
+                        }
                       }
                     }}
                   >
@@ -147,4 +142,12 @@ const Login = ({ useAuth }) => {
   );
 };
 
-export default withAuth(Login);
+const mapStateToProps = ({ auth }) => ({
+  client: auth.client,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  logIn: (...args) => dispatch(logInAction(...args)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

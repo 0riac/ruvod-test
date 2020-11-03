@@ -1,5 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { forgetClient as forgetClientAction } from '../../redux/actions/auth';
 import { styled } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -9,7 +11,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { withAuth } from '../AuthClient';
 import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
 import axios from 'axios';
 import Client from 'webauthn/client';
@@ -32,9 +33,7 @@ const ToolbarGrid = styled(Grid)({
   minHeight: '64px'
 });
 
-const Header = ({ useAuth }) => {
-  const [{ client, error } = {}, setAuth] = useAuth();
-
+const Header = ({ client, error, forgetClient }) => {
   return (
     <>
       {error || !client ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
@@ -61,7 +60,7 @@ const Header = ({ useAuth }) => {
                         onClick={async () => {
                           await Promise.all([axios.get(`${API_ENDPOINT}/logout`, { withCredentials: true }),
                             webAuthClient.logout()]);
-                          setAuth(({ client: _, ...rest }) => ({ ...rest }));
+                          forgetClient();
                         }}
                       >
                         <ExitToAppIcon />
@@ -84,4 +83,12 @@ const Header = ({ useAuth }) => {
   );
 };
 
-export default withAuth(Header);
+const mapStateToProps = ({ auth = {} }) => ({
+  ...auth
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  forgetClient: () => dispatch(forgetClientAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
@@ -10,9 +11,8 @@ import Autorizations from '../Autorizations';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { validateEmail } from '../../helpers';
-import axios from 'axios';
-import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
-import { withAuth } from '../AuthClient';
+import { ROUTING_SUBPATH } from '../../config';
+import { registration as registrationAction } from '../../redux/actions/auth';
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -44,8 +44,7 @@ const NoDecorationLink = styled(Link)({
   textDecoration: 'none'
 });
 
-const Registration = ({ useAuth }) => {
-  const [{ client }, setAuth] = useAuth();
+const Registration = ({ client, registration }) => {
   const [store, setStore] = useState({ name: '', email: '', password: '' });
   const { name, email, password } = store;
   const nameInputRef = useRef();
@@ -137,17 +136,13 @@ const Registration = ({ useAuth }) => {
                   <Button
                     variant='contained'
                     color='primary'
-                    onClick={() => {
+                    onClick={async () => {
                       if (validate()) {
-                        axios.post(`${API_ENDPOINT}/createClient`, { email, password, name }, {
-                          withCredentials: true
-                        })
-                          .then(({ data }) => {
-                            setAuth({ client: data.client });
-                          })
-                          .catch(() => {
-                            setErrors({ password: { error: true }, email: { error: true }, name: { error: true } });
-                          });
+                        try {
+                          await registration({ email, password, name });
+                        } catch {
+                          setErrors({ password: { error: true }, email: { error: true }, name: { error: true } });
+                        }
                       }
                     }}
                   >
@@ -163,4 +158,12 @@ const Registration = ({ useAuth }) => {
   );
 };
 
-export default withAuth(Registration);
+const mapStatetoProps = ({ auth }) => ({
+  client: auth.client,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  registration: (...args) => dispatch(registrationAction(...args))
+});
+
+export default connect(mapStatetoProps, mapDispatchToProps)(Registration);

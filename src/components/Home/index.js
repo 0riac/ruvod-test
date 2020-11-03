@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { styled } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import { UserGroupCard, AddUser } from './components';
 import { GET_USERS, DELETE_USER, UPDATE_USER, getOpts } from '../../queries';
-import { withAuth } from '../AuthClient';
 import { Redirect } from 'react-router-dom';
 import { ROUTING_SUBPATH } from '../../config';
 
@@ -15,7 +15,7 @@ const Wrapper = styled(Box)({
   flex: '1'
 });
 
-const Home = ({ useAuth }) => {
+const Home = ({ client }) => {
   const { loading, data, refetch } = useQuery(GET_USERS, { variables: getOpts });
   const [deleteUser] = useMutation(DELETE_USER, {
     update(cache, { data: { deleteUser: deletedUser } }) {
@@ -28,7 +28,6 @@ const Home = ({ useAuth }) => {
     }
   });
   const [updateUser] = useMutation(UPDATE_USER);
-  const [{ client }] = useAuth();
 
   useEffect(() => {
     if (client?._id) {
@@ -54,4 +53,8 @@ const Home = ({ useAuth }) => {
   );
 };
 
-export default withAuth(Home);
+const mapStateToProps = ({ auth }) => ({
+  client: auth.client,
+});
+
+export default connect(mapStateToProps)(Home);

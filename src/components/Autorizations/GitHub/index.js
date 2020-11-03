@@ -6,7 +6,6 @@ import GitHubIcon from '@material-ui/icons/GitHub';
 import { API_ENDPOINT } from '../../../config';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { withAuth } from '../../AuthClient';
 
 const AuthIconButton = styled(IconButton)(({ theme, active }) => ({
   color: active ? theme.palette.primary.main : '#000'
@@ -52,4 +51,4 @@ const GitHub = ({ active, setAuthControls, onClick }) => {
   );
 };
 
-export default withAuth(GitHub);
+export default GitHub;

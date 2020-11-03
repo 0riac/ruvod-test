@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient from 'apollo-boost';
 import { API_ENDPOINT } from './config';
+import store from './redux/store';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import './index.css';
 import App from './App';
@@ -15,7 +17,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <ReduxProvider store={store}>
+      <App />
+    </ReduxProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );

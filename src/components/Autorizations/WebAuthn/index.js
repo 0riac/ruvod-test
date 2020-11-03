@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { connect } from 'react-redux';
+import { webAuthn as webAuthnAction } from '../../../redux/actions/auth';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -7,11 +9,9 @@ import IconButton from '@material-ui/core/IconButton';
 import VpnKeyOutlinedIcon from '@material-ui/icons/VpnKeyOutlined';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
-import axios from 'axios';
 import Client from 'webauthn/client';
 import { validateEmail } from '../../../helpers';
 import { API_ENDPOINT } from '../../../config';
-import { withAuth } from '../../AuthClient';
 
 const webAuthClient = new Client({ pathPrefix: `${API_ENDPOINT}/webauthn` });
 
@@ -33,8 +33,9 @@ const LayoutGrid = ({ children, ...props }) => (
   </Grid>
 );
 
-const Login = withAuth(({ onCancel, useAuth }) => {
-  const [, setAuth] = useAuth();
+const Login = connect(null, (dispatch) => ({
+  webAuthn: dispatch(webAuthnAction())
+}))(({ onCancel, webAuthn }) => {
   const [store, setStore] = useState({ email: '' });
   const { email } = store;
   const emailInputRef = useRef();
@@ -86,11 +87,8 @@ const Login = withAuth(({ onCancel, useAuth }) => {
                 await webAuthClient.login({
                   username: email,
                 });
-                const { data: { client } } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
-                  withCredentials: true
-                });
 
-                setAuth({ client });
+                webAuthn();
               } catch (e) {
                 alert(`login failed ${e}`);
               }
@@ -104,8 +102,9 @@ const Login = withAuth(({ onCancel, useAuth }) => {
   );
 });
 
-const Registration = withAuth(({ onCancel, useAuth }) => {
-  const [, setAuth] = useAuth();
+const Registration = connect(null, (dispatch) => ({
+  webAuthn: dispatch(webAuthnAction())
+}))(({ onCancel, webAuthn }) => {
   const [store, setStore] = useState({ name: '', email: '' });
   const { name, email } = store;
   const nameInputRef = useRef();
@@ -175,11 +174,7 @@ const Registration = withAuth(({ onCancel, useAuth }) => {
                   username: email,
                   name
                 });
-                const { data: { client } } = await axios.get(`${API_ENDPOINT}/auth/webauthn`, {
-                  withCredentials: true
-                });
-
-                setAuth({ client });
+                webAuthn();
               } catch (e) {
                 alert(`register failed ${e}`);
               }

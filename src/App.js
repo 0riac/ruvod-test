@@ -4,9 +4,11 @@ import {
   Switch,
   Route,
 } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { initAuth as initAuthAction } from './redux/actions/auth';
 import { styled } from '@material-ui/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { Home, Header, Registration, Login, AuthContext, useAuthClient } from './components';
+import { Home, Header, Registration, Login } from './components';
 import { ROUTING_SUBPATH } from './config';
 import './App.css';
 
@@ -17,16 +19,14 @@ const ProgressWrapper = styled('div')({
   alignItems: 'center'
 });
 
-const App = () => {
-  const [state, setState] = useAuthClient({ loading: true });
-
+const App = ({ loading, initAuth }) => {
   useEffect(() => {
-    setState.fetch();
+    initAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={() => ([state, setState])}>
-      {state?.loading ? (
+    <>
+      {loading ? (
         <ProgressWrapper>
           <CircularProgress />
         </ProgressWrapper>
@@ -48,8 +48,16 @@ const App = () => {
           </Router>
         </div>
       )}
-    </AuthContext.Provider>
+    </>
   );
 };
 
-export default App;
+const mapStateToProps = ({ auth = {} }) => ({
+  loading: auth.loading,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initAuth: () => dispatch(initAuthAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
