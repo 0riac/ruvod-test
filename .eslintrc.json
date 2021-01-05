@@ -1,4 +1,5 @@
 {
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "es2020": true
@@ -37,6 +38,7 @@
         "no-unused-expressions": 0,
         "react/jsx-no-target-blank": 0,
         "no-alert": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "lines-between-class-members": 0
     }
 }

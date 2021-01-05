@@ -1,6 +1,4 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { logIn as logInAction } from '../../redux/actions/auth';
 import { Link, Redirect } from 'react-router-dom';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -13,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { validateEmail } from '../../helpers';
 import { ROUTING_SUBPATH } from '../../config';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../../mobx';
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -44,12 +44,13 @@ const NoDecorationLink = styled(Link)({
   textDecoration: 'none'
 });
 
-const Login = ({ client, logIn }) => {
+const Login = () => {
   const [store, setStore] = useState({ password: '', email: '' });
   const { password, email } = store;
   const emailInputRef = useRef();
   const [{ password: passwordError, email: emailError }, setErrors] = useState({});
   const [authControls, setAuthControls] = useState();
+  const { client } = authStore;
 
   useEffect(() => {
     if (emailInputRef?.current) {
@@ -123,7 +124,7 @@ const Login = ({ client, logIn }) => {
                     onClick={async () => {
                       if (validate()) {
                         try {
-                          await logIn({ email, password });
+                          await authStore.logIn({ email, password });
                         } catch {
                           setErrors({ password: { error: true }, email: { error: true } });
                         }
@@ -142,12 +143,4 @@ const Login = ({ client, logIn }) => {
   );
 };
 
-const mapStateToProps = ({ auth }) => ({
-  client: auth.client,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  logIn: (...args) => dispatch(logInAction(...args)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default observer(Login);

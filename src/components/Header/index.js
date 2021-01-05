@@ -1,7 +1,5 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { forgetClient as forgetClientAction } from '../../redux/actions/auth';
 import { styled } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -14,6 +12,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { API_ENDPOINT, ROUTING_SUBPATH } from '../../config';
 import axios from 'axios';
 import Client from 'webauthn/client';
+import { authStore } from '../../mobx';
+import { observer } from 'mobx-react-lite';
 
 const webAuthClient = new Client({ pathPrefix: `${API_ENDPOINT}/webauthn` });
 
@@ -33,7 +33,9 @@ const ToolbarGrid = styled(Grid)({
   minHeight: '64px'
 });
 
-const Header = ({ client, error, forgetClient }) => {
+const Header = () => {
+  const { client, error } = authStore;
+
   return (
     <>
       {error || !client ? <Redirect to={`${ROUTING_SUBPATH}/login`} /> : null}
@@ -60,7 +62,7 @@ const Header = ({ client, error, forgetClient }) => {
                         onClick={async () => {
                           await Promise.all([axios.get(`${API_ENDPOINT}/logout`, { withCredentials: true }),
                             webAuthClient.logout()]);
-                          forgetClient();
+                          authStore.forgetClient();
                         }}
                       >
                         <ExitToAppIcon />
@@ -83,12 +85,4 @@ const Header = ({ client, error, forgetClient }) => {
   );
 };
 
-const mapStateToProps = ({ auth = {} }) => ({
-  ...auth
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  forgetClient: () => dispatch(forgetClientAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default observer(Header);

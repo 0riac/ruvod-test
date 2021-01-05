@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { initAuth as initAuthAction } from './redux/actions/auth';
+import { authStore } from './mobx';
 import { styled } from '@material-ui/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { Home, Header, Registration, Login } from './components';
 import { ROUTING_SUBPATH } from './config';
+import { observer } from 'mobx-react-lite';
 import './App.css';
 
 const ProgressWrapper = styled('div')({
@@ -19,14 +19,10 @@ const ProgressWrapper = styled('div')({
   alignItems: 'center'
 });
 
-const App = ({ loading, initAuth }) => {
-  useEffect(() => {
-    initAuth();
-  }, []);
-
+const App = () => {
   return (
     <>
-      {loading ? (
+      {authStore.loading ? (
         <ProgressWrapper>
           <CircularProgress />
         </ProgressWrapper>
@@ -52,12 +48,4 @@ const App = ({ loading, initAuth }) => {
   );
 };
 
-const mapStateToProps = ({ auth = {} }) => ({
-  loading: auth.loading,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  initAuth: () => dispatch(initAuthAction()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default observer(App);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { webAuthn as webAuthnAction } from '../../../redux/actions/auth';
+import { authStore } from '../../../mobx';
+import { observer } from 'mobx-react-lite';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -33,9 +33,7 @@ const LayoutGrid = ({ children, ...props }) => (
   </Grid>
 );
 
-const Login = connect(null, (dispatch) => ({
-  webAuthn: dispatch(webAuthnAction())
-}))(({ onCancel, webAuthn }) => {
+const Login = observer(({ onCancel }) => {
   const [store, setStore] = useState({ email: '' });
   const { email } = store;
   const emailInputRef = useRef();
@@ -88,7 +86,7 @@ const Login = connect(null, (dispatch) => ({
                   username: email,
                 });
 
-                webAuthn();
+                authStore.webAuthn();
               } catch (e) {
                 alert(`login failed ${e}`);
               }
@@ -102,9 +100,7 @@ const Login = connect(null, (dispatch) => ({
   );
 });
 
-const Registration = connect(null, (dispatch) => ({
-  webAuthn: dispatch(webAuthnAction())
-}))(({ onCancel, webAuthn }) => {
+const Registration = observer(({ onCancel }) => {
   const [store, setStore] = useState({ name: '', email: '' });
   const { name, email } = store;
   const nameInputRef = useRef();
@@ -174,7 +170,7 @@ const Registration = connect(null, (dispatch) => ({
                   username: email,
                   name
                 });
-                webAuthn();
+                authStore.webAuthn();
               } catch (e) {
                 alert(`register failed ${e}`);
               }

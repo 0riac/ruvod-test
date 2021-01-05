@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { styled } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -7,6 +6,8 @@ import Container from '@material-ui/core/Container';
 import { UserGroupCard, AddUser } from './components';
 import { GET_USERS, DELETE_USER, UPDATE_USER, getOpts } from '../../queries';
 import { Redirect } from 'react-router-dom';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../../mobx';
 import { ROUTING_SUBPATH } from '../../config';
 
 const Wrapper = styled(Box)({
@@ -15,7 +16,7 @@ const Wrapper = styled(Box)({
   flex: '1'
 });
 
-const Home = ({ client }) => {
+const Home = () => {
   const { loading, data, refetch } = useQuery(GET_USERS, { variables: getOpts });
   const [deleteUser] = useMutation(DELETE_USER, {
     update(cache, { data: { deleteUser: deletedUser } }) {
@@ -28,6 +29,7 @@ const Home = ({ client }) => {
     }
   });
   const [updateUser] = useMutation(UPDATE_USER);
+  const { client } = authStore;
 
   useEffect(() => {
     if (client?._id) {
@@ -53,8 +55,4 @@ const Home = ({ client }) => {
   );
 };
 
-const mapStateToProps = ({ auth }) => ({
-  client: auth.client,
-});
-
-export default connect(mapStateToProps)(Home);
+export default observer(Home);

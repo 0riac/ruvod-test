@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { styled } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { Typography } from '@material-ui/core';
@@ -12,7 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { validateEmail } from '../../helpers';
 import { ROUTING_SUBPATH } from '../../config';
-import { registration as registrationAction } from '../../redux/actions/auth';
+import { observer } from 'mobx-react-lite';
+import { authStore } from '../../mobx';
 
 const LayoutGrid = ({ children, ...props }) => (
   <Grid {...props}>
@@ -44,12 +44,13 @@ const NoDecorationLink = styled(Link)({
   textDecoration: 'none'
 });
 
-const Registration = ({ client, registration }) => {
+const Registration = () => {
   const [store, setStore] = useState({ name: '', email: '', password: '' });
   const { name, email, password } = store;
   const nameInputRef = useRef();
   const [{ name: nameError, email: emailError, password: passwordError }, setErrors] = useState({});
   const [authControls, setAuthControls] = useState();
+  const { client } = authStore;
 
   useEffect(() => {
     if (nameInputRef?.current) {
@@ -139,7 +140,7 @@ const Registration = ({ client, registration }) => {
                     onClick={async () => {
                       if (validate()) {
                         try {
-                          await registration({ email, password, name });
+                          await authStore.registration({ email, password, name });
                         } catch {
                           setErrors({ password: { error: true }, email: { error: true }, name: { error: true } });
                         }
@@ -158,12 +159,4 @@ const Registration = ({ client, registration }) => {
   );
 };
 
-const mapStatetoProps = ({ auth }) => ({
-  client: auth.client,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  registration: (...args) => dispatch(registrationAction(...args))
-});
-
-export default connect(mapStatetoProps, mapDispatchToProps)(Registration);
+export default observer(Registration);
